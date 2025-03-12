@@ -82,8 +82,8 @@ namespace LibraryAPI.Controllers
                     u.borrowed_at,
                     u.returned_at,
                     DaysBetween = (u.returned_at.GetValueOrDefault() - u.borrowed_at.GetValueOrDefault()).Days, 
-                    fee = ((u.returned_at.GetValueOrDefault() - u.borrowed_at.GetValueOrDefault()).TotalMinutes > 2)
-                        ? ((u.returned_at.GetValueOrDefault() - u.borrowed_at.GetValueOrDefault()).TotalMinutes - 2) * 10
+                    fee = ((u.returned_at.GetValueOrDefault() - u.borrowed_at.GetValueOrDefault()).AddDays > 10)
+                        ? ((u.returned_at.GetValueOrDefault() - u.borrowed_at.GetValueOrDefault()).AddDays - 10) * 10
                         : 0
                 });
                 
@@ -115,7 +115,7 @@ namespace LibraryAPI.Controllers
             }
 
             var borrowedAt = DateTime.UtcNow;
-            var dueDate = borrowedAt.AddMinutes(2.0);
+            var dueDate = borrowedAt.AddDays(10.0);
 
             var newBorrow = new UserBorrowedBook
             {
